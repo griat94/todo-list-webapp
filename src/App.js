@@ -5,6 +5,7 @@ import AddTodo from './components/AddTodo';
 import Header from './components/layout/header';
 import About from './components/pages/About';
 import Sort from './components/Sort';
+import Login from './components/pages/Login';
 import axios from 'axios';
 // import UUID from 'uuid';
 
@@ -90,6 +91,7 @@ class App extends Component {
               </Fragment>
             )} />
             <Route path="/about" component={About} />
+            <Route path="/login" component={Login} />
           </div>
         </div>
       </Router>
