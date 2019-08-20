@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
 import Header from './components/layout/header';
@@ -14,7 +14,8 @@ import './App.css';
 
 class App extends Component {
   state = {
-    todos: []
+    todos: [],
+    authenticated: false
   }
 
   componentDidMount() {
@@ -74,13 +75,29 @@ class App extends Component {
     })
   }
 
+  tryLogin = (certs) => {
+    if (certs.username === "griat" && certs.password === "password") {
+      console.log("Log-in Successful!")
+      this.setState({ authenticated: true });
+    } else {
+      console.log("Log-in Failed!")
+      this.setState({ authenticated: false });
+    }
+  }
+
   render() {
     return (
       <Router>
         <div className="App">
           <div className="container">
             <Header />
-            <Route exact path="/" render={props => (
+            <Route exact path="/" component={() => (<Redirect to='/login' />)} />
+            <Route exact path="/login" render={() => (
+              <Fragment>
+                <Login tryLogin={this.tryLogin} />
+              </Fragment>
+            )} />
+            <Route exact path="/home" render={() => (
               <Fragment>
                 <Sort doSort={this.doSort} />
                 <AddTodo addTodo={this.addTodo} />
@@ -91,12 +108,12 @@ class App extends Component {
               </Fragment>
             )} />
             <Route path="/about" component={About} />
-            <Route path="/login" component={Login} />
           </div>
         </div>
       </Router>
     );
   }
 }
+
 
 export default App;
