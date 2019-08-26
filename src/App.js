@@ -19,8 +19,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=25')
-      .then(res => this.setState({ todos: res.data }))
+    axios.get('http://localhost:9000/todos/')
+      .then(res => this.setState({ todos: res.data }));
   }
 
   // Toggle Complete
@@ -37,7 +37,7 @@ class App extends Component {
 
   // Delete Todo
   delTodo = (id) => {
-    axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+    axios.delete(`http://localhost:9000/todos/${id}`)
       .then(res =>
         this.setState({
           todos: [...this.state.todos.filter(todo => todo.id !== id)]
@@ -47,13 +47,11 @@ class App extends Component {
 
   // Add Todo
   addTodo = (title) => {
-    axios.post('https://jsonplaceholder.typicode.com/todos', {
+    axios.post('http://localhost:9000/todos/', {
       title,
       completed: false
     })
-      .then(res => this.setState({
-        todos: [...this.state.todos, res.data]
-      })
+      .then(res => this.setState({ todos: res.data })
       )
   }
 
@@ -105,6 +103,7 @@ class App extends Component {
                   todos={this.state.todos}
                   markComplete={this.markComplete}
                   delTodo={this.delTodo} />
+                <p>{this.state.apiResponse}</p>
               </Fragment>
             )} />
             <Route path="/about" component={About} />
