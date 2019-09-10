@@ -83,6 +83,12 @@ class App extends Component {
     }
   }
 
+  redirectAfterLogin = () => {
+    if (this.state.authenticated) {
+      return <Redirect to="/home" />
+    }
+  }
+
   render() {
     return (
       <Router>
@@ -92,6 +98,7 @@ class App extends Component {
             <Route exact path="/" component={() => (<Redirect to='/login' />)} />
             <Route exact path="/login" render={() => (
               <Fragment>
+                {this.redirectAfterLogin()}
                 <Login tryLogin={this.tryLogin} />
               </Fragment>
             )} />
@@ -103,7 +110,6 @@ class App extends Component {
                   todos={this.state.todos}
                   markComplete={this.markComplete}
                   delTodo={this.delTodo} />
-                <p>{this.state.apiResponse}</p>
               </Fragment>
             )} />
             <Route path="/about" component={About} />
